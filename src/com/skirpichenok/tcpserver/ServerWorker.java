@@ -25,7 +25,6 @@ class ServerWorker extends Thread {
         Selector selector = null;
         try {
             selector = Selector.open();
-			int x = 0;
             while (!Thread.interrupted()) {
                 ServerHandler newHandler = handlers.poll();
                 if (newHandler != null) {
