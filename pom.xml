@@ -19,7 +19,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.skirpichenok.tcpproxy.TcpProxyRunner</mainClass>
+                            <mainClass>com.skirpichenok.tcpproxy.ProxyRunner</mainClass>
                             <packageName>com.github.terma.javaniotcpproxy</packageName>
                         </manifest>
                     </archive>
