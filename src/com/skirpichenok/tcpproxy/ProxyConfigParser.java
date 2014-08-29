@@ -26,13 +26,13 @@ public final class ProxyConfigParser {
 		for (String propertyName : properties.stringPropertyNames()) {
 			int dotIndex = propertyName.lastIndexOf('.');
 			if (dotIndex == -1) {
-				throw new RuntimeException("Invalid property " + propertyName
+				throw new IllegalArgumentException("Invalid property " + propertyName
 						+ " should be <proxy name>.localPort|remotePort|remoteHost");
 			}
 			proxyNames.add(propertyName.substring(0, dotIndex));
 		}
 		if (proxyNames.isEmpty()) {
-			throw new RuntimeException("Please specify at least one proxy.");
+			throw new IllegalArgumentException("Please specify at least one proxy.");
 		}
 		List<ProxyConfig> tcpProxyConfigs = new ArrayList<ProxyConfig>();
 		for (String proxyName : proxyNames) {
@@ -48,14 +48,14 @@ public final class ProxyConfigParser {
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException exception) {
-			throw new RuntimeException("Invalid integer " + key + " = " + value, exception);
+			throw new IllegalArgumentException("Invalid integer " + key + " = " + value, exception);
 		}
 	}
 
 	private static String findProperty(Properties properties, String key) {
 		String value = properties.getProperty(key);
 		if (value == null) {
-			throw new RuntimeException("Please specify " + key);
+			throw new IllegalArgumentException("Please specify " + key);
 		}
 		return value;
 	}

@@ -1,46 +1,62 @@
 package com.skirpichenok.tcpserver;
 
 /**
- * Configuration for TCP server
+ * ServerConfig class. Configuration for TCP server.
  */
 public class ServerConfig {
 
-	private final int port;
-	private final int workerCount;
-	private final ServerHandlerFactory handlerFactory;
+	private int port;
+	private int workerCount;
+	private ServerHandlerFactory handlerFactory;
 
+	/**
+	 * ServerConfig constructor.
+	 * 
+	 * @param port
+	 *            int
+	 * @param handlerFactory
+	 *            ServerHandlerFactory
+	 * @param workerCount
+	 *            int
+	 */
 	public ServerConfig(int port, ServerHandlerFactory handlerFactory, int workerCount) {
-		if (workerCount < 1)
+		if (workerCount < 1) {
 			throw new IllegalArgumentException("Count of workers should be at least 1!");
-
-		if (port < 0)
+		}
+		if (port < 0) {
 			throw new IllegalArgumentException("Port can't be negative!");
-
-		if (handlerFactory == null)
+		}
+		if (handlerFactory == null) {
 			throw new NullPointerException("Please specify handler factory!");
-
+		}
 		this.port = port;
 		this.workerCount = workerCount;
 		this.handlerFactory = handlerFactory;
 	}
 
 	/**
-	 * @return - local port which TCP server will be listening, should be 0..64000
+	 * Method that returns port value.
+	 * 
+	 * @return local port which TCP server will be listening, should be 0..64000
 	 */
 	public int getPort() {
 		return port;
 	}
 
 	/**
-	 * @return - handler factory which TCP server will use for process incoming connections
+	 * Method that returns handlerFactory.
+	 *
+	 * @return handler factory which TCP server will use for process incoming connections
 	 */
 	public ServerHandlerFactory getHandlerFactory() {
 		return handlerFactory;
 	}
 
 	/**
-	 * @return - count of worker (thread) which TCP proxy will use for processing incoming client connection, should
-	 *         more 0
+	 * Method that returns workerCount value.
+	 *
+	 * @return count of worker (thread) which TCP proxy will use for processing incoming client connection, should be
+	 *         more than 0
 	 */
 	public int getWorkerCount() {
 		return workerCount;
