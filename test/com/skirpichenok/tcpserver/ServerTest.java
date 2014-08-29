@@ -5,7 +5,7 @@ import org.mockito.Mockito;
 
 public class ServerTest {
 
-	private final ServerHandlerFactory handlerFactory = Mockito.mock(ServerHandlerFactory.class);
+	private ServerHandlerFactory handlerFactory = Mockito.mock(ServerHandlerFactory.class);
 	private ServerConfig config = new ServerConfig(0, handlerFactory, 1);
 
 	@Test

@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 
 public class ServerConfigTest {
 
-	private final ServerHandlerFactory handlerFactory = Mockito.mock(ServerHandlerFactory.class);
+	private ServerHandlerFactory handlerFactory = Mockito.mock(ServerHandlerFactory.class);
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldFailWhenCreateWithWorkerCountsZero() {
@@ -30,7 +30,7 @@ public class ServerConfigTest {
 
 	@Test
 	public void shouldSuccess() {
-		final ServerConfig config = new ServerConfig(5600, handlerFactory, 3);
+		ServerConfig config = new ServerConfig(5600, handlerFactory, 3);
 
 		Assert.assertEquals(5600, config.getPort());
 		Assert.assertSame(handlerFactory, config.getHandlerFactory());
