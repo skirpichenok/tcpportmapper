@@ -5,17 +5,26 @@ import com.skirpichenok.tcpserver.ServerHandlerFactory;
 
 import java.nio.channels.SocketChannel;
 
-class ProxyConnectorFactory implements ServerHandlerFactory {
+/**
+ * ProxyConnectorFactory class.
+ */
+public class ProxyConnectorFactory implements ServerHandlerFactory {
 
-    private final ProxyConfig config;
+	private final ProxyConfig config;
 
-    public ProxyConnectorFactory(ProxyConfig config) {
-        this.config = config;
-    }
+	/**
+	 * ProxyConnectorFactory constructor.
+	 * 
+	 * @param config
+	 *            ProxyConfig
+	 */
+	public ProxyConnectorFactory(ProxyConfig config) {
+		this.config = config;
+	}
 
-    @Override
-    public ServerHandler create(final SocketChannel clientChannel) {
-        return new ProxyConnector(clientChannel, config);
-    }
+	@Override
+	public ServerHandler create(SocketChannel clientChannel) {
+		return new ProxyConnector(clientChannel, config);
+	}
 
 }

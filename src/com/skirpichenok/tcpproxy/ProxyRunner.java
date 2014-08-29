@@ -7,45 +7,51 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProxyRunner {
+/**
+ * ProxyRunner class.
+ */
+public final class ProxyRunner {
 
-    private final static Logger LOGGER = Logger.getAnonymousLogger();
+	public static final Logger LOGGER = Logger.getAnonymousLogger();
 
-    public static void main(final String[] args) {
-        if (args.length != 1) {
-            System.err.println("Please specify path to config file!");
-            System.exit(1);
-        }
+	private ProxyRunner() {
+	}
 
-        final Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(args[0]));
-        } catch (IOException exception) {
-            if (LOGGER.isLoggable(Level.SEVERE))
-                LOGGER.log(Level.SEVERE, "Can't load properties from " + args[0], exception);
-            System.exit(1);
-        }
+	/**
+	 * Main method.
+	 * 
+	 * @param args
+	 *            String[]
+	 */
+	public static void main(String[] args) {
+		if (args.length != 1) {
+			System.err.println("Please specify path to config file!");
+			System.exit(1);
+		}
 
-        final List<ProxyConfig> configs = ProxyConfigParser.parse(properties);
-        if (LOGGER.isLoggable(Level.INFO))
-            LOGGER.info("Starting TcpProxy with " + configs.size() + " connectors");
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(args[0]));
+		} catch (IOException exception) {
+			LOGGER.log(Level.SEVERE, "Can't load properties from " + args[0], exception);
+			System.exit(1);
+		}
 
-        final int cores = Runtime.getRuntime().availableProcessors();
-        if (LOGGER.isLoggable(Level.INFO))
-            LOGGER.info("TcpProxy detected " + cores + " core" + (cores > 1 ? "s" : ""));
+		List<ProxyConfig> configs = ProxyConfigParser.parse(properties);
+		LOGGER.info("Starting TcpProxy with " + configs.size() + " connectors");
 
-        final int workerCount = Math.max(cores / configs.size(), 1);
-        if (LOGGER.isLoggable(Level.INFO))
-            LOGGER.info("TcpProxy will use " + workerCount + " workers per connector");
+		int cores = Runtime.getRuntime().availableProcessors();
+		LOGGER.info("TcpProxy detected " + cores + " core" + (cores > 1 ? "s" : ""));
 
-        for (final ProxyConfig config : configs) {
-            config.setWorkerCount(workerCount);
+		int workerCount = Math.max(cores / configs.size(), 1);
+		LOGGER.info("TcpProxy will use " + workerCount + " workers per connector");
 
-            new Proxy(config).start();
-        }
+		for (ProxyConfig config : configs) {
+			config.setWorkerCount(workerCount);
+			new Proxy(config).start();
+		}
 
-        if (LOGGER.isLoggable(Level.INFO))
-            LOGGER.info("TcpProxy started");
-    }
+		LOGGER.info("TcpProxy started");
+	}
 
 }
